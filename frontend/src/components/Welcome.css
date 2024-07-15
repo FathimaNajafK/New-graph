@@ -1,0 +1,66 @@
+.welcome-container {
+  height: 100vh;
+  background-image: url('../image/jet.jpeg');
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 20px;
+  position: relative;
+}
+
+.welcome-header {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+
+.logout-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  color: rgb(3, 3, 3);
+  border: none;
+  border-radius: 5px;
+}
+
+.message-box,
+.button-box,
+.output-box {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.message-box h1 {
+  color: #333;
+}
+
+.button-box button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.pre-output {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
+
+.graphImg{
+  width: 400px;
+}
+
+.alert-message {
+  color: rgb(165, 23, 23);
+  margin-top: 10px;
+}

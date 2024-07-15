@@ -1,0 +1,49 @@
+trigger:
+- dev
+
+resources:
+ repositories:
+   - repository: self
+
+variables:
+  dockerServiceConnection: "docker-cred"
+  k8ServiceConnection: "K8-cred"
+  nameSpace: "test"
+  imageRepository: "arjunbiztras/greenjets"
+  vmImageName: "ubuntu-20.04"
+  tagBackend: "backtest"
+  tagFrontend: "fronttest"
+
+stages:
+  - stage: Build
+    displayName: Build
+    pool:
+      vmImage: $(vmImageName)
+    jobs:
+      - job: Build_and_Push
+        displayName: Build and push image to container registry
+        steps:
+        - task: Docker@2
+          inputs:
+            containerRegistry: 'docker-cred'
+            command: 'login'
+        - script: |
+            docker build -t $(imageRepository):$(tagBackend) .
+            docker push $(imageRepository):$(tagBackend)
+            docker build -t $(imageRepository):$(tagFrontend) ./frontend
+            docker push $(imageRepository):$(tagFrontend)
+
+      - job: Deploy_to_k8
+        displayName: Deploy to k8 
+        steps:
+        - task: Kubernetes@1
+          inputs:
+            connectionType: 'Kubernetes Service Connection'
+            kubernetesServiceEndpoint: 'k8-cred'
+            namespace: 'test'
+            command: 'login'
+        - script: |
+            kubectl rollout restart deployment.apps/backend-deployment -n $(nameSpace)
+            sleep 60 
+            kubectl rollout restart deployment.apps/frontend-deployment -n $(nameSpace)
+            kubectl get svc -n $(nameSpace)

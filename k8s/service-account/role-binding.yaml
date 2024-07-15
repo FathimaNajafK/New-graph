@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: green-role-binding
+  namespace: test
+subjects:
+  - namespace: test
+    name: green-sa
+    kind: ServiceAccount
+roleRef:
+   kind: Role
+   name: green-role
+   apiGroup: rbac.authorization.k8s.io
+
